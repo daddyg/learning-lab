@@ -1,0 +1,38 @@
+html
+	body
+		span Your hand
+		br
+		br
+		each card in you.cards
+			!=partial('card', {card : card})
+				
+		br
+		span Your score is: 
+		span= you.score()
+		br
+		br
+		br
+		
+		span Dealer's hand
+		br
+		each card in dealer.cards
+			!=partial('card', {card : card})
+		
+		br
+		span The Dealer's score is: 
+		span= dealer.score()
+		br
+		br
+		
+		if you.isBust()
+			span You are bust!
+		else if dealer.isBust()
+			span The dealer is bust, you win!
+		else if you.score() > dealer.score()
+			span You win!
+		else
+			span You lose!
+		
+		br
+		form(method='get', action='/')
+			input(value='new', type='submit') New game
