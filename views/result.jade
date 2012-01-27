@@ -1,28 +1,26 @@
 html
+	head
+		script(src="/card.js")
 	body
 		span Your hand
-		br
-		br
+		div(style="clear:both")
 		each card in you.cards
 			!=partial('card', {card : card})
 				
-		br
+		div(style="clear:both")
 		span Your score is: 
 		span= you.score()
-		br
-		br
-		br
+		div(style="clear:both")
 		
 		span Dealer's hand
-		br
+		div(style="clear:both")
 		each card in dealer.cards
 			!=partial('card', {card : card})
 		
-		br
+		div(style="clear:both")
 		span The Dealer's score is: 
 		span= dealer.score()
-		br
-		br
+		div(style="clear:both")
 		
 		if you.isBust()
 			span You are bust!
@@ -33,6 +31,6 @@ html
 		else
 			span You lose!
 		
-		br
+		div(style="clear:both")
 		form(method='get', action='/')
 			input(value='new', type='submit') New game

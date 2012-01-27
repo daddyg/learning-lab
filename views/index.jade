@@ -1,3 +1,24 @@
+<!DOCTYPE html>
 html
+	head
+		script(src="/card.js")
 	body
-		span= cards[0] + " " + cards[1]
+		
+		each card in cards
+			!=partial('card', {card : card})
+			
+		div(style="clear:both")
+		span Your score is: 
+		span= score()
+		if isBust()
+			br
+			span You are bust!
+			br
+			form(method='get', action='/')
+				input(value='new', type='submit') New game
+		else
+			form(method='get', action='/twist')
+				input(value='twist', type='submit') Twist
+			
+			form(method='get', action='/stick')
+				input(value='stick', type='submit') Stick
