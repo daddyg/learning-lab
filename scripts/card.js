@@ -1,9 +1,9 @@
-function drawCard(id, cardNumber, suit){
+function drawCard(id, cardText, cardNumber, suit){
 	var drawingCanvas = document.getElementById(id);
 	if(drawingCanvas.getContext) {
 	var context = drawingCanvas.getContext('2d');
 		drawCardBack(context);
-		drawRank(context, cardNumber, suit >= 2);
+		drawRank(context, cardText, suit >= 2);
 		switch(suit){
 			case 0:
 				drawHeart(context);
@@ -41,7 +41,7 @@ function drawCardBack(context){
 	context.stroke();
 }
 
-function drawRank(context, cardNumber, isBlack){
+function drawRank(context, cardText, isBlack){
 	if(isBlack)
 		context.fillStyle    = '#000';
 	else
@@ -49,18 +49,11 @@ function drawRank(context, cardNumber, isBlack){
 		
 	context.font         = 'bold 30px sans-serif';
 	context.textBaseline = 'top';
-	var text = cardNumber+1;
-	if(cardNumber == 10)
-		text = "J";
-	else if(cardNumber == 11)
-		text  = "Q";
-	else if(cardNumber == 12)
-		text  = "K";
 	
 	context.textAlign = "left";
-	context.fillText(text, 10, 10);
+	context.fillText(cardText, 10, 10);
 	context.textAlign = "right";
-	context.fillText(text, 185, 265);
+	context.fillText(cardText, 185, 265);
 }
 
 function drawHeart(context){

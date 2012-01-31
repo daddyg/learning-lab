@@ -2,4 +2,4 @@ section
 	canvas(id=card.toString(), width="200", height="300", style="float:left")
 		span= card.toString()
 	script(type="text/javascript")
-		drawCard("!{card.toString()}", !{card.CardNumber}, !{card.Suit});
+		drawCard("!{card.toString()}", "!{card.toCardString()}", !{card.CardNumber}, !{card.Suit});

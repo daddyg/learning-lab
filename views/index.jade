@@ -4,21 +4,24 @@ html
 		script(src="/card.js")
 	body
 		
-		each card in cards
+		each card in you.cards
 			!=partial('card', {card : card})
 			
 		div(style="clear:both")
 		span Your score is: 
-		span= score()
-		if isBust()
+		span= you.score()
+		if you.isBust()
 			br
 			span You are bust!
 			br
 			form(method='get', action='/')
+				input(value=table, type='hidden', name='table')
 				input(value='new', type='submit') New game
 		else
 			form(method='get', action='/twist')
+				input(value=table, type='hidden', name='table')
 				input(value='twist', type='submit') Twist
 			
 			form(method='get', action='/stick')
+				input(value=table, type='hidden', name='table')
 				input(value='stick', type='submit') Stick

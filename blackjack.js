@@ -6,11 +6,15 @@ exports.Card = function(){
 		return exports.Card.PossibleValues[this.CardNumber] + " "+ exports.Card.PossibleSuits[this.Suit];
 	}
 	
+	this.toCardString = function(){
+		return this.CardNumber > 0 && this.CardNumber < 10 ? exports.Card.PossibleValues[this.CardNumber] : exports.Card.PossibleValues[this.CardNumber].substring(0,1);
+	}
+	
 	this.value = function(){
 		return this.CardNumber+1 > 10 ? 10 : this.CardNumber+1;
 	}
 }
-exports.Card.PossibleValues = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King'];
+exports.Card.PossibleValues = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King'];
 exports.Card.PossibleSuits = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
 
 exports.Hand = function(){
