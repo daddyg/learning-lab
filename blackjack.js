@@ -22,13 +22,32 @@ exports.Hand = function(){
 		this.cards.push(new exports.Card());
 	}
 	
-	this.score = function(){
-		var score = 0;
+	this.scores = function(){
+		var scores = [0];
 		for(var i=0;i<this.cards.length;i++){
-			score += this.cards[i].value();
+			for(var j=0;j<scores.length;j++){
+				scores[j] += this.cards[i].value();
+				if(scores[j] > 21 && scores.length > 1){
+					scores.splice(j,1);
+					j--;
+				}
+			}
+			
+			if(this.cards[i].CardNumber == 0){
+				if(i==0){
+					scores.push(11);
+				}
+				else if(scores[0]+11-1 <= 21){
+					scores.push(scores[0]+11-1);
+				}
+			}
 		}
 		
-		return score;
+		return scores;
+	}
+	
+	this.score = function(){
+		return this.scores().pop();
 	}
 	
 	this.isBust = function(){

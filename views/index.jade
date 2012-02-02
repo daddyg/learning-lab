@@ -5,11 +5,13 @@ html
 	body
 		
 		each card in you.cards
-			!=partial('card', {card : card})
+			!=partial('card', {id: card.toString()+Math.floor(Math.random()*1000), card : card})
 			
 		div(style="clear:both")
 		span Your score is: 
-		span= you.score()
+		ul
+			each score in you.scores()
+				li= score
 		if you.isBust()
 			br
 			span You are bust!
