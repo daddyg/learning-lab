@@ -5,7 +5,7 @@ html
 		span Your hand
 		div(style="clear:both")
 		each card in you.cards
-			!=partial('card', {card : card})
+			!=partial('card', {id: card.toString()+Math.floor(Math.random()*1000), card : card})
 				
 		div(style="clear:both")
 		span Your score is: 
@@ -15,7 +15,7 @@ html
 		span Dealer's hand
 		div(style="clear:both")
 		each card in dealer.cards
-			!=partial('card', {card : card})
+			!=partial('card', {id: card.toString()+Math.floor(Math.random()*1000), card : card})
 		
 		div(style="clear:both")
 		span The Dealer's score is: 
