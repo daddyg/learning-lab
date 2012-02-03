@@ -4,32 +4,12 @@ html
 		script(src="/card.js")
 	body
 		span Dealer's Hand
-		!=partial('card', {id: dealer.cards[0].toString()+Math.floor(Math.random()*1000), card : dealer.cards[0]})
+		!=partial('card', {id: table.dealer.cards[0].toString()+Math.floor(Math.random()*1000), card : table.dealer.cards[0]})
 		!=partial('cardback', {id:Math.floor(Math.random()*1000)})
 		
 		div(style="clear:both")
 		
-		span Your Hand
-		each card in you.cards
-			!=partial('card', {id: card.toString()+Math.floor(Math.random()*1000), card : card})
-		
-		div(style="clear:both")
-		span Your score is: 
-		ul
-			each score in you.scores()
-				li= score
-		if you.isBust()
-			br
-			span You are bust!
-			br
-			form(method='get', action='/')
-				input(value=Id, type='hidden', name='table')
-				input(value='new', type='submit') New game
-		else
-			form(method='get', action='/twist')
-				input(value=Id, type='hidden', name='table')
-				input(value='twist', type='submit') Twist
+		each player in table.players
+			!=partial('hand', {Id:table.Id, PlayerId:playerId, Player:player})
 			
-			form(method='get', action='/stick')
-				input(value=Id, type='hidden', name='table')
-				input(value='stick', type='submit') Stick
+		div(style="clear:both")

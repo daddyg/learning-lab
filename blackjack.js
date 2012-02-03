@@ -55,8 +55,13 @@ exports.Hand = function(){
 
 exports.Table = function(){
 	this.dealer = new exports.Hand();
+	this.players = [];
 	
 	this.dealHand = function(){
-		this.you = new exports.Hand();
+		return this.players.push(new exports.Hand()) - 1;
+	}
+	
+	this.draw = function(player){
+		this.players[player].draw();
 	}
 }

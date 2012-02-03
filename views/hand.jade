@@ -1,0 +1,28 @@
+span Player's Hand
+each card in Player.cards
+	!=partial('card', {id: card.toString()+Math.floor(Math.random()*1000), card : card})
+
+div(style="clear:both")
+
+span Player's score is: 
+ul
+each score in Player.scores()
+	li= score
+if Player.isBust()
+	br
+	span PLayer is bust!
+	br
+	form(method='get', action='/')
+		input(value=Id, type='hidden', name='table')
+		input(value=PlayerId, type='hidden', name='player')
+		input(value='new', type='submit') New game
+else
+	form(method='get', action='/twist')
+		input(value=Id, type='hidden', name='table')
+		input(value=PlayerId, type='hidden', name='player')
+		input(value='twist', type='submit') Twist
+
+	form(method='get', action='/stick')
+		input(value=Id, type='hidden', name='table')
+		input(value=PlayerId, type='hidden', name='player')
+		input(value='stick', type='submit') Stick

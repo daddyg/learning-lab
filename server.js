@@ -1,5 +1,3 @@
-GLOBAL.DEBUG = true;
-
 var http = require('http');
 var express = require('express');
 var blackjack = require('./blackjack');
@@ -19,30 +17,32 @@ application.configure(function() {
 	application.use(express.static(__dirname+'/scripts'));
 });
 
-
+var table = new blackjack.Table();
 application.get('/', function(req, res){
-	var table = new blackjack.Table();
-	table.dealHand();
+	var player = req.query.player 
+	if(player == null){
+		player = table.dealHand();
+	}
 	
 	storeTable(table);
 	
-	res.render('table.jade', table);
+	res.render('table.jade', {playerId:player, table:table});
 });
 
 application.get('/twist', function(req, res){
 	var tableId = req.query.table;
 	var table = getTable(tableId);
 	
-	table.you.draw();
+	table.draw(parseInt(req.query.person));
 	
-	res.render('table.jade', table);
+	res.render('table.jade', {playerId:player, table:table});
 });
 
 application.get('/stick', function(req, res){
 	var tableId = req.query.table;
 	var table = getTable(tableId);
 	
-	while(table.dealer.score() <= table.you.score() && table.dealer.score() <= 16)
+	while(table.dealer.score() <= table.players[0].score() && table.dealer.score() <= 16)
 		table.dealer.draw();
 	
 	res.render('result.jade', table);
@@ -50,14 +50,14 @@ application.get('/stick', function(req, res){
 
 var tables = [];
 function storeTable(table){
-	var tableId = tables.push(table)-1;
-	table.Id = tableId;
+	//var tableId = tables.push(table)-1;
+	table.Id = 0;//tableId;
 	
 	return table;
 }
 
 function getTable(tableId){
-	return tables[parseInt(tableId)];
+	return table;//tables[parseInt(tableId)];
 }
 
 application.listen(hosting.port);
