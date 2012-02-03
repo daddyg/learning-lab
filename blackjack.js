@@ -52,3 +52,11 @@ exports.Hand = function(){
 	this.draw();
 	this.draw();
 };
+
+exports.Table = function(){
+	this.dealer = new exports.Hand();
+	
+	this.dealHand = function(){
+		this.you = new exports.Hand();
+	}
+}

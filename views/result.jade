@@ -2,6 +2,16 @@ html
 	head
 		script(src="/card.js")
 	body
+		span Dealer's hand
+		div(style="clear:both")
+		each card in dealer.cards
+			!=partial('card', {id: card.toString()+Math.floor(Math.random()*1000), card : card})
+		
+		div(style="clear:both")
+		span The Dealer's score is: 
+		span= dealer.score()
+		div(style="clear:both")
+		
 		span Your hand
 		div(style="clear:both")
 		each card in you.cards
@@ -12,15 +22,7 @@ html
 		span= you.score()
 		div(style="clear:both")
 		
-		span Dealer's hand
-		div(style="clear:both")
-		each card in dealer.cards
-			!=partial('card', {id: card.toString()+Math.floor(Math.random()*1000), card : card})
 		
-		div(style="clear:both")
-		span The Dealer's score is: 
-		span= dealer.score()
-		div(style="clear:both")
 		
 		if you.isBust()
 			span You are bust!

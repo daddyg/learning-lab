@@ -2,7 +2,7 @@ function drawCard(id, cardText, cardNumber, suit){
 	var drawingCanvas = document.getElementById(id);
 	if(drawingCanvas.getContext) {
 	var context = drawingCanvas.getContext('2d');
-		drawCardBack(context);
+		drawCardOutline(context);
 		drawRank(context, cardText, suit >= 2);
 		switch(suit){
 			case 0:
@@ -24,8 +24,41 @@ function drawCard(id, cardText, cardNumber, suit){
 	}
 }
 
-function drawCardBack(context){
+function drawCardBack(id){
+	var drawingCanvas = document.getElementById(id);
+	if(drawingCanvas.getContext) {
+	var context = drawingCanvas.getContext('2d');
+		drawCardOutline(context);
+		drawCardPattern(context);
+	}
+}
+
+function drawRoundedRectangle(context, x,y,width,height,radius)
+{
 	context.fillStyle = "#ff0000";
+	context.strokeStyle = "#ff0000";
+	context.beginPath();
+	context.moveTo(x+radius,y);
+	context.lineTo(x+width-radius,y);
+	context.quadraticCurveTo(x+width-radius,y,x+width,y+radius);
+	context.lineTo(x+width,y+height-radius);
+	context.quadraticCurveTo(x+width,y+height-radius,x+width-radius,y+height);
+	context.lineTo(x+radius,y+height);
+	context.quadraticCurveTo(x+radius,y+height,x,y+height-radius);
+	context.lineTo(x,y+radius);
+	context.quadraticCurveTo(x,y+radius,x+radius,y);
+	context.closePath();
+	context.stroke();
+}
+
+function drawCardPattern(context){
+	drawRoundedRectangle(context, 30,30,140,240,15);
+	context.fill();
+}
+
+function drawCardOutline(context){
+	drawRoundedRectangle(context, 0,0,200,300,15);
+	/*context.fillStyle = "#ff0000";
 	context.strokeStyle = "#ff0000";
 	context.beginPath();
 	context.moveTo(15,0);
@@ -38,7 +71,7 @@ function drawCardBack(context){
 	context.lineTo(0,15);
 	context.quadraticCurveTo(0,15,15,0);
 	context.closePath();
-	context.stroke();
+	context.stroke();*/
 }
 
 function drawRank(context, cardText, isBlack){

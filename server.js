@@ -1,3 +1,5 @@
+GLOBAL.DEBUG = true;
+
 var http = require('http');
 var express = require('express');
 var blackjack = require('./blackjack');
@@ -9,7 +11,6 @@ var hosting = {
 			|| 80
 };
 
-
 var application = express.createServer();
 
 application.configure(function() {
@@ -20,42 +21,43 @@ application.configure(function() {
 
 
 application.get('/', function(req, res){
-	var hand = new blackjack.Hand();
+	var table = new blackjack.Table();
+	table.dealHand();
 	
-	var table = storeHand(hand);
+	storeTable(table);
 	
-	res.render('index.jade', {table:table, you:hand});
+	res.render('table.jade', table);
 });
 
 application.get('/twist', function(req, res){
-	var table = req.query.table;
-	var hand = getHand(table);
+	var tableId = req.query.table;
+	var table = getTable(tableId);
 	
-	hand.draw();
+	table.you.draw();
 	
-	res.render('index.jade', {table:table, you:hand});
+	res.render('table.jade', table);
 });
 
 application.get('/stick', function(req, res){
-	var table = req.query.table;
-	var hand = getHand(table);
+	var tableId = req.query.table;
+	var table = getTable(tableId);
 	
-	var dealer = new blackjack.Hand();
+	while(table.dealer.score() <= table.you.score() && table.dealer.score() <= 16)
+		table.dealer.draw();
 	
-	while(dealer.score() <= hand.score() && dealer.score() <= 16)
-		dealer.draw();
-	
-	res.render('result.jade', {table:table, you:hand, dealer:dealer});
+	res.render('result.jade', table);
 });
 
-var hands = [];
-function storeHand(hand){
-	var table = hands.push(hand)-1;
+var tables = [];
+function storeTable(table){
+	var tableId = tables.push(table)-1;
+	table.Id = tableId;
+	
 	return table;
 }
 
-function getHand(table){
-	return hands[parseInt(table)];
+function getTable(tableId){
+	return tables[parseInt(tableId)];
 }
 
 application.listen(hosting.port);
