@@ -24,23 +24,17 @@ exports.Hand = function(){
 	
 	this.scores = function(){
 		var scores = [0];
+		var anyAces = false;
 		for(var i=0;i<this.cards.length;i++){
-			for(var j=0;j<scores.length;j++){
-				scores[j] += this.cards[i].value();
-				if(scores[j] > 21 && scores.length > 1){
-					scores.splice(j,1);
-					j--;
-				}
+			if(this.cards[i].CardNumber == 0){
+				anyAces = true;
 			}
 			
-			if(this.cards[i].CardNumber == 0){
-				if(i==0){
-					scores.push(11);
-				}
-				else if(scores[0]+11-1 <= 21){
-					scores.push(scores[0]+11-1);
-				}
-			}
+			scores[0] += this.cards[i].value();
+		}
+		
+		if(anyAces && scores[0]+10 <= 21){
+			scores.push(scores[0]+10);
 		}
 		
 		return scores;
