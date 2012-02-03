@@ -4,34 +4,37 @@ html
 	body
 		span Dealer's hand
 		div(style="clear:both")
-		each card in dealer.cards
+		each card in table.dealer.cards
 			!=partial('card', {id: card.toString()+Math.floor(Math.random()*1000), card : card})
 		
 		div(style="clear:both")
 		span The Dealer's score is: 
-		span= dealer.score()
+		span= table.dealer.score()
 		div(style="clear:both")
 		
-		span Your hand
-		div(style="clear:both")
-		each card in you.cards
-			!=partial('card', {id: card.toString()+Math.floor(Math.random()*1000), card : card})
-				
-		div(style="clear:both")
-		span Your score is: 
-		span= you.score()
-		div(style="clear:both")
+		each player in table.players
+			div(style="clear:both")
+			span Player's hand
+			div(style="clear:both")
+			
+			each card in player.cards
+				!=partial('card', {id: card.toString()+Math.floor(Math.random()*1000), card : card})
+			
+			div(style="clear:both")
+			span Player's score is: 
+			span= player.score()
+			div(style="clear:both")
 		
 		
 		
-		if you.isBust()
-			span You are bust!
-		else if dealer.isBust()
-			span The dealer is bust, you win!
-		else if you.score() > dealer.score()
-			span You win!
-		else
-			span You lose!
+			if player.isBust()
+				span Player is bust!
+			else if table.dealer.isBust()
+				span The dealer is bust, player wins!
+			else if player.score() > table.dealer.score()
+				span Player wins!
+			else
+				span Player loses!
 		
 		div(style="clear:both")
 		form(method='get', action='/')

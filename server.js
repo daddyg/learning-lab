@@ -32,10 +32,10 @@ application.get('/', function(req, res){
 application.get('/twist', function(req, res){
 	var tableId = req.query.table;
 	var table = getTable(tableId);
+	var playerId = parseInt(req.query.player);
+	table.draw(playerId);
 	
-	table.draw(parseInt(req.query.person));
-	
-	res.render('table.jade', {playerId:player, table:table});
+	res.render('table.jade', {playerId:playerId, table:table});
 });
 
 application.get('/stick', function(req, res){
@@ -45,7 +45,7 @@ application.get('/stick', function(req, res){
 	while(table.dealer.score() <= table.players[0].score() && table.dealer.score() <= 16)
 		table.dealer.draw();
 	
-	res.render('result.jade', table);
+	res.render('result.jade', {playerId:parseInt(req.query.player), table:table});
 });
 
 var tables = [];
