@@ -20,6 +20,12 @@ application.configure(function() {
 var table = new blackjack.Table();
 application.get('/', function(req, res){
 	var player = req.query.player 
+	
+	if(table.isGameComplete())
+	{
+		table.startNextGame();
+	}
+	
 	if(player == null){
 		player = table.dealHand();
 	}
@@ -41,11 +47,18 @@ application.get('/twist', function(req, res){
 application.get('/stick', function(req, res){
 	var tableId = req.query.table;
 	var table = getTable(tableId);
+	var playerId = parseInt(req.query.player);
 	
-	while(table.dealer.score() <= table.players[0].score() && table.dealer.score() <= 16)
-		table.dealer.draw();
+	table.stick(playerId);
 	
-	res.render('result.jade', {playerId:parseInt(req.query.player), table:table});
+	if(table.isGameComplete()){
+		while(table.dealer.score() <= 16)
+			table.dealer.draw();
+		
+		res.render('result.jade', {playerId:playerId, table:table});
+	}
+	else
+		res.render('table.jade', {playerId:playerId, table:table});
 });
 
 var tables = [];

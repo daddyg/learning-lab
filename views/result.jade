@@ -38,4 +38,6 @@ html
 		
 		div(style="clear:both")
 		form(method='get', action='/')
+			input(value=table.Id, type='hidden', name='table')
+			input(value=playerId, type='hidden', name='player')
 			input(value='new', type='submit') New game

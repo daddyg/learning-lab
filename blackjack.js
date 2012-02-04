@@ -56,6 +56,7 @@ exports.Hand = function(){
 exports.Table = function(){
 	this.dealer = new exports.Hand();
 	this.players = [];
+	this.currentPlayer = 0;
 	
 	this.dealHand = function(){
 		return this.players.push(new exports.Hand()) - 1;
@@ -63,5 +64,21 @@ exports.Table = function(){
 	
 	this.draw = function(player){
 		this.players[player].draw();
+	}
+	
+	this.stick = function(player){
+		this.currentPlayer++;
+	}
+	
+	this.isGameComplete = function(){
+		return this.currentPlayer >= this.players.length;
+	}
+	
+	this.startNextGame = function(){
+		this.currentPlayer = 0;
+		this.dealer = new exports.Hand();
+		for(var i=0;i<this.players.length;i++){
+			this.players[i] = new exports.Hand();
+		}
 	}
 }

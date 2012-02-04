@@ -52,12 +52,12 @@ function drawRoundedRectangle(context, x,y,width,height,radius)
 }
 
 function drawCardPattern(context){
-	drawRoundedRectangle(context, 30,30,140,240,15);
+	drawRoundedRectangle(context, 10,10,30,55,4);
 	context.fill();
 }
 
 function drawCardOutline(context){
-	drawRoundedRectangle(context, 0,0,200,300,15);
+	drawRoundedRectangle(context, 0,0,50,75,4);
 	/*context.fillStyle = "#ff0000";
 	context.strokeStyle = "#ff0000";
 	context.beginPath();
@@ -80,20 +80,20 @@ function drawRank(context, cardText, isBlack){
 	else
 		context.fillStyle    = '#f00';
 		
-	context.font         = 'bold 30px sans-serif';
+	context.font         = 'bold 12px sans-serif';
 	context.textBaseline = 'top';
 	
 	context.textAlign = "left";
-	context.fillText(cardText, 10, 10);
+	context.fillText(cardText, 4, 4);
 	context.textAlign = "right";
-	context.fillText(cardText, 185, 265);
+	context.fillText(cardText, 46, 60);
 }
 
 function drawHeart(context){
-	var x = 100;
-	var y = 75;
-	var width = 100;
-	var height = 150;
+	var x = 25;
+	var y = 15;
+	var width = 30;
+	var height = 45;
 	context.beginPath();
 	var topCurveHeight = height * 0.3;
 	context.moveTo(x, y + topCurveHeight);
@@ -130,20 +130,20 @@ function drawDiamond(context){
 	context.fillStyle = "#ff0000";
 	context.strokeStyle = "#ff0000";
 	context.beginPath();
-	context.moveTo(100,80);
-	context.lineTo(150,150);
-	context.lineTo(100,220);
-	context.lineTo(50,150);
+	context.moveTo(25,15);
+	context.lineTo(40,37);
+	context.lineTo(25,60);
+	context.lineTo(10,37);
 	context.closePath();
 	context.stroke();
 	context.fill();
 }
 
 function drawClub(context){
-	var x = 100;
-	var y = 75;
-	var width = 100;
-	var height = 150;
+	var x = 25;
+	var y = 15;
+	var width = 30;
+	var height = 45;
 	var circleRadius = width * 0.3;
 	var bottomWidth = width * 0.5;
 	var bottomHeight = height * 0.35;
@@ -192,10 +192,10 @@ function drawClub(context){
 }
 
 function drawSpade(context){
-	var x = 100;
-	var y = 75;
-	var width = 100;
-	var height = 150;
+	var x = 25;
+	var y = 15;
+	var width = 30;
+	var height = 45;
 	var bottomWidth = width * 0.7;
 	var topHeight = height * 0.7;
 	var bottomHeight = height * 0.3;
