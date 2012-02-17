@@ -1,28 +1,25 @@
-span Player's Hand
-each card in Player.cards
-	!=partial('card', {id: card.toString()+Math.floor(Math.random()*1000), card : card})
+div(class="hand",style="float:left; padding:10px 30px 0 0")
+	if PlayerId==Player.Id
+		span Your Hand
+	else
+		span Players Hand
+		
+	each card in Player.cards
+		!=partial('card', {id: card.toString()+Math.floor(Math.random()*1000), card : card})
 
-div(style="clear:both")
+	div(style="clear:both")
 
-span Player's score is: 
-ul
-each score in Player.scores()
-	li= score
-if Player.isBust()
-	br
-	span Player is bust!
-	br
-	form(method='get', action='/')
-		input(value=Id, type='hidden', name='table')
-		input(value=PlayerId, type='hidden', name='player')
-		input(value='new', type='submit') New game
-else
-	form(method='get', action='/twist')
-		input(value=Id, type='hidden', name='table')
-		input(value=PlayerId, type='hidden', name='player')
-		input(value='twist', type='submit') Twist
-
-	form(method='get', action='/stick')
-		input(value=Id, type='hidden', name='table')
-		input(value=PlayerId, type='hidden', name='player')
-		input(value='stick', type='submit') Stick
+	span Player's score is: 
+	ul
+	each score in Player.scores()
+		li= score
+	if Player.isBust()
+		br
+		span Player is bust!
+		br
+	else
+		if PlayerId==Player.Id
+			div
+				a(href='/'+Id+'/'+ playerId + '/twist') Twist
+			div
+				a(href='/'+Id+'/'+ playerId + '/stick') Stick

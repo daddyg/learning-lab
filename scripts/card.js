@@ -58,20 +58,6 @@ function drawCardPattern(context){
 
 function drawCardOutline(context){
 	drawRoundedRectangle(context, 0,0,50,75,4);
-	/*context.fillStyle = "#ff0000";
-	context.strokeStyle = "#ff0000";
-	context.beginPath();
-	context.moveTo(15,0);
-	context.lineTo(185,0);
-	context.quadraticCurveTo(185,0,200,15);
-	context.lineTo(200,285);
-	context.quadraticCurveTo(200,285,185,300);
-	context.lineTo(15,300);
-	context.quadraticCurveTo(15,300,0,285);
-	context.lineTo(0,15);
-	context.quadraticCurveTo(0,15,15,0);
-	context.closePath();
-	context.stroke();*/
 }
 
 function drawRank(context, cardText, isBlack){

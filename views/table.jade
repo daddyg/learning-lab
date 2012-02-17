@@ -2,6 +2,7 @@
 html
 	head
 		script(src="/card.js")
+		meta(http-equiv="refresh", content="10")
 	body
 		span Dealer's Hand
 		!=partial('card', {id: table.dealer.cards[0].toString()+Math.floor(Math.random()*1000), card : table.dealer.cards[0]})

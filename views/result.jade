@@ -13,31 +13,46 @@ html
 		div(style="clear:both")
 		
 		each player in table.players
-			div(style="clear:both")
-			span Player's hand
-			div(style="clear:both")
+			div(clas="hand",style="float:left;padding:10px 30px 0 0px")
+				if playerId==player.Id
+					span Your Hand
+				else
+					span Players Hand
+					
+				div(style="clear:both")
+				
+				each card in player.cards
+					!=partial('card', {id: card.toString()+Math.floor(Math.random()*1000), card : card})
+				
+				div(style="clear:both")
+				
+				if playerId==player.Id
+					span Your score is:
+				else
+					span Player's score is:
+				span= player.score()
+				div(style="clear:both")
 			
-			each card in player.cards
-				!=partial('card', {id: card.toString()+Math.floor(Math.random()*1000), card : card})
-			
-			div(style="clear:both")
-			span Player's score is: 
-			span= player.score()
-			div(style="clear:both")
-		
-		
-		
-			if player.isBust()
-				span Player is bust!
-			else if table.dealer.isBust()
-				span The dealer is bust, player wins!
-			else if player.score() > table.dealer.score()
-				span Player wins!
-			else
-				span Player loses!
+				if player.isBust()
+					if playerId==player.Id
+						span You are bust!
+					else
+						span Player is bust!
+				else if table.dealer.isBust()
+					if playerId==player.Id
+						span The dealer is bust, you win!
+					else
+						span The dealer is bust, player wins!
+				else if player.score() > table.dealer.score()
+					if playerId==player.Id
+						span You win!
+					else
+						span Player wins!
+				else
+					if playerId==player.Id
+						span You lose!
+					else
+						span Player loses!
 		
 		div(style="clear:both")
-		form(method='get', action='/')
-			input(value=table.Id, type='hidden', name='table')
-			input(value=playerId, type='hidden', name='player')
-			input(value='new', type='submit') New game
+		a(href='/') New Game

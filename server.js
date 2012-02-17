@@ -18,39 +18,49 @@ application.configure(function() {
 });
 
 var table = new blackjack.Table();
+table.Id = 0;
+
 application.get('/', function(req, res){
-	var player = req.query.player 
+	var table = getFreeTable();
 	
-	if(table.isGameComplete())
-	{
+	if(table.isGameComplete()){
 		table.startNextGame();
 	}
 	
-	if(player == null){
-		player = table.dealHand();
-	}
+	player = table.dealHand();
 	
-	storeTable(table);
+	res.redirect('/'+table.Id+'/'+player);
+});
+
+application.get('/:tableid/:playerid', function(req, res){
+	var player = req.params.playerid;
+	var tableId = req.params.tableId;
+	
+	var table = getTable(tableId);
 	
 	res.render('table.jade', {playerId:player, table:table});
 });
 
-application.get('/twist', function(req, res){
-	var tableId = req.query.table;
+application.get('/:tableid/:playerid/twist', function(req, res){
+	var tableId = req.params.tableId;
 	var table = getTable(tableId);
-	var playerId = parseInt(req.query.player);
+	var playerId = parseInt(req.params.playerid);
 	table.draw(playerId);
 	
-	res.render('table.jade', {playerId:playerId, table:table});
+	checkForCompleteGame(table, playerId, res);
 });
 
-application.get('/stick', function(req, res){
-	var tableId = req.query.table;
+application.get('/:tableid/:playerid/stick', function(req, res){
+	var tableId = req.params.tableId;
 	var table = getTable(tableId);
-	var playerId = parseInt(req.query.player);
+	var playerId = parseInt(req.params.playerid);
 	
 	table.stick(playerId);
 	
+	checkForCompleteGame(table, playerId, res);
+});
+
+function checkForCompleteGame(table, playerId, res){
 	if(table.isGameComplete()){
 		while(table.dealer.score() <= 16)
 			table.dealer.draw();
@@ -59,9 +69,13 @@ application.get('/stick', function(req, res){
 	}
 	else
 		res.render('table.jade', {playerId:playerId, table:table});
-});
+}
 
 var tables = [];
+function getFreeTable(){
+	return table;
+}
+
 function storeTable(table){
 	//var tableId = tables.push(table)-1;
 	table.Id = 0;//tableId;

@@ -59,11 +59,19 @@ exports.Table = function(){
 	this.currentPlayer = 0;
 	
 	this.dealHand = function(){
-		return this.players.push(new exports.Hand()) - 1;
+		var id = this.players.push(new exports.Hand()) - 1;
+		this.players[id].Id = id;
+		return id;
 	}
 	
 	this.draw = function(player){
-		this.players[player].draw();
+		if(!this.players[player].isBust()) {
+			this.players[player].draw();
+			
+			if(this.players[player].isBust()){
+				this.currentPlayer++;
+			}
+		}
 	}
 	
 	this.stick = function(player){
@@ -76,6 +84,7 @@ exports.Table = function(){
 	
 	this.startNextGame = function(){
 		this.currentPlayer = 0;
+		this.players = [];
 		this.dealer = new exports.Hand();
 		for(var i=0;i<this.players.length;i++){
 			this.players[i] = new exports.Hand();
