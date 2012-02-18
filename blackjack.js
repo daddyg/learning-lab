@@ -54,10 +54,11 @@ exports.Hand = function(){
 };
 
 exports.Table = function(){
+	this.MaxPlayers = 3;
 	this.dealer = new exports.Hand();
 	this.players = [];
 	this.currentPlayer = 0;
-	
+
 	this.dealHand = function(){
 		var id = this.players.push(new exports.Hand()) - 1;
 		this.players[id].Id = id;
@@ -65,6 +66,9 @@ exports.Table = function(){
 	}
 	
 	this.draw = function(player){
+		if(player != this.currentPlayer)
+			return;
+			
 		if(!this.players[player].isBust()) {
 			this.players[player].draw();
 			
@@ -75,6 +79,9 @@ exports.Table = function(){
 	}
 	
 	this.stick = function(player){
+		if(player != this.currentPlayer)
+			return;
+		
 		this.currentPlayer++;
 	}
 	
@@ -89,5 +96,36 @@ exports.Table = function(){
 		for(var i=0;i<this.players.length;i++){
 			this.players[i] = new exports.Hand();
 		}
+	}
+	
+	this.hasSpaceOnTable = function(){
+		return this.players.length < this.MaxPlayers;
+	}
+}
+
+exports.Casino = function(){
+	var tables = [];
+	
+	this.getFreeTable = function(){
+		for(var i=0;i<tables.length;i++){
+			if(tables[i].hasSpaceOnTable()){
+				return tables[i];
+			}
+		}
+		
+		return createTable();
+	}
+	
+	var createTable = function(){
+		var table = new exports.Table();
+		
+		var id = tables.push(table);
+		table.Id = id-1;
+		
+		return table;
+	}
+	
+	this.getTable = function(tableId){
+		return tables[tableId];
 	}
 }

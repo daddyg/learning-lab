@@ -2,7 +2,8 @@
 html
 	head
 		script(src="/card.js")
-		meta(http-equiv="refresh", content="10")
+		if playerId != table.currentPlayer
+			meta(http-equiv="refresh", content="1")
 	body
 		span Dealer's Hand
 		!=partial('card', {id: table.dealer.cards[0].toString()+Math.floor(Math.random()*1000), card : table.dealer.cards[0]})
@@ -11,6 +12,6 @@ html
 		div(style="clear:both")
 		
 		each player in table.players
-			!=partial('hand', {Id:table.Id, PlayerId:playerId, Player:player})
+			!=partial('hand', {Id:table.Id, PlayerId:playerId, Player:player, CurrentPlayer:table.currentPlayer})
 			
 		div(style="clear:both")

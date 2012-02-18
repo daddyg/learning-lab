@@ -17,11 +17,10 @@ application.configure(function() {
 	application.use(express.static(__dirname+'/scripts'));
 });
 
-var table = new blackjack.Table();
-table.Id = 0;
+var casino = new blackjack.Casino();
 
 application.get('/', function(req, res){
-	var table = getFreeTable();
+	var table = casino.getFreeTable();
 	
 	if(table.isGameComplete()){
 		table.startNextGame();
@@ -34,16 +33,16 @@ application.get('/', function(req, res){
 
 application.get('/:tableid/:playerid', function(req, res){
 	var player = req.params.playerid;
-	var tableId = req.params.tableId;
+	var tableId = req.params.tableid;
 	
-	var table = getTable(tableId);
+	var table = casino.getTable(parseInt(tableId));
 	
 	res.render('table.jade', {playerId:player, table:table});
 });
 
 application.get('/:tableid/:playerid/twist', function(req, res){
-	var tableId = req.params.tableId;
-	var table = getTable(tableId);
+	var tableId = req.params.tableid;
+	var table = casino.getTable(tableId);
 	var playerId = parseInt(req.params.playerid);
 	table.draw(playerId);
 	
@@ -51,8 +50,8 @@ application.get('/:tableid/:playerid/twist', function(req, res){
 });
 
 application.get('/:tableid/:playerid/stick', function(req, res){
-	var tableId = req.params.tableId;
-	var table = getTable(tableId);
+	var tableId = req.params.tableid;
+	var table = casino.getTable(tableId);
 	var playerId = parseInt(req.params.playerid);
 	
 	table.stick(playerId);
@@ -69,22 +68,6 @@ function checkForCompleteGame(table, playerId, res){
 	}
 	else
 		res.render('table.jade', {playerId:playerId, table:table});
-}
-
-var tables = [];
-function getFreeTable(){
-	return table;
-}
-
-function storeTable(table){
-	//var tableId = tables.push(table)-1;
-	table.Id = 0;//tableId;
-	
-	return table;
-}
-
-function getTable(tableId){
-	return table;//tables[parseInt(tableId)];
 }
 
 application.listen(hosting.port);
