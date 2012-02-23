@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+html
+	head
+		script(src="/card.js")
+		script(src="http://code.jquery.com/jquery-latest.min.js")
+		script(src='/socket.io/socket.io.js')
+		script(type="text/javascript")
+			var socket = io.connect();
+			
+			socket.on('message', function(data) {
+				$('body').append('<p>' +data+'</p>');
+			});
+	body
+		span Dealer's Hand
+		!=partial('card', {id: table.dealer.cards[0].toString()+Math.floor(Math.random()*1000), card : table.dealer.cards[0]})
+		!=partial('cardback', {id:Math.floor(Math.random()*1000)})
+		
+		div(style="clear:both")
+		
+		each player in table.players
+			!=partial('hand', {Id:table.Id, PlayerId:playerId, Player:player, CurrentPlayer:table.currentPlayer})
+			
+		div(style="clear:both")

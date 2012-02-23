@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+html
+	head
+		script(src="/card.js")
+		script(src="http://code.jquery.com/jquery-latest.min.js")
+		script(src='/socket.io/socket.io.js')
+		script(type="text/javascript")
+			var socket = io.connect();
+			
+			socket.on('message', function(data) {
+				$('body').append('<p>' +data+'</p>');
+			});
+			
+			function twist(){
+				socket.emit('twist');
+			}
+	body
+		h1 Welcome to the casino
+		a(onclick="twist(); return false;", href="") Twist
