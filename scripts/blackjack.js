@@ -9,6 +9,8 @@ function drawTable(table){
 
 function drawHand(hand, container){
 	var i=0;
+	container.empty();
+	
 	for(i;i<hand.cards.length;i++){
 		var card = hand.cards[i];
 		var cardId = createCardId(card);
@@ -16,6 +18,7 @@ function drawHand(hand, container){
 		$('<canvas width="50" height="75" class="card" id="'+cardId+'"/>').appendTo(container);
 		
 		drawCard(cardId, card.CardString, card.CardNumber, card.Suit);
+		
 	}
 }
 

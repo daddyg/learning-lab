@@ -56,10 +56,11 @@ listener.sockets.on('connection', function (socket) {
 	socket.set("table", table.Id);
 	
 	socket.on("twist", function(){
-		socket.get("table", function(err, table){
-			socket.get("player", function(err, player){
-				console.log("Player "+player+" on table "+table+" just twisted");
-				casino.getTable(table).draw(player);
+		socket.get("table", function(err, tableId){
+			socket.get("player", function(err, playerId){
+				console.log("Player "+playerId+" on table "+tableId+" just twisted");
+				var table = casino.getTable(tableId)
+				table.draw(playerId);
 				
 				checkForCompleteGame(table, playerId);
 			});
@@ -84,7 +85,7 @@ function checkForCompleteGame(table, playerId){
 		while(table.dealer.score() <= 16)
 			table.dealer.draw();
 		
-		listener.sockets.emit('playerchange', table.dealer);
+		listener.sockets.emit('dealerchange', table.dealer);
 		//res.render('result.jade', {playerId:player, table:table});
 	}
 	//else

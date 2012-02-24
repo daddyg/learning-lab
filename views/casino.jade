@@ -13,18 +13,19 @@ html
 				drawTable(table);
 			});
 			
+			socket.on('dealerchange', function(hand) {
+				drawHand(hand, $(".dealer .hand"));
+				
+			});
 			socket.on('playerchange', function(hand) {
 				drawHand(hand, $("#player0"));
-				socket.get("player", function(err, player){
-					drawHand(hand, $("#player"+player));
-				});
 			});
 			
 			function twist(){
 				socket.emit('twist');
 			}
 			
-			function twist(){
+			function stick(){
 				socket.emit('stick');
 			}
 	body
