@@ -9,6 +9,7 @@ exports.Card = function(){
 	this.toCardString = function(){
 		return this.CardNumber > 0 && this.CardNumber < 10 ? exports.Card.PossibleValues[this.CardNumber] : exports.Card.PossibleValues[this.CardNumber].substring(0,1);
 	}
+	this.CardString = this.CardNumber > 0 && this.CardNumber < 10 ? exports.Card.PossibleValues[this.CardNumber] : exports.Card.PossibleValues[this.CardNumber].substring(0,1);
 	
 	this.value = function(){
 		return this.CardNumber+1 > 10 ? 10 : this.CardNumber+1;

@@ -1,19 +1,37 @@
 <!DOCTYPE html>
 html
 	head
+		link(href="/blackjack.css",type="text/css",rel="stylesheet")
 		script(src="/card.js")
+		script(src="/blackjack.js")
 		script(src="http://code.jquery.com/jquery-latest.min.js")
 		script(src='/socket.io/socket.io.js')
 		script(type="text/javascript")
 			var socket = io.connect();
 			
-			socket.on('message', function(data) {
-				$('body').append('<p>' +data+'</p>');
+			socket.on('connectedToTable', function(table) {
+				drawTable(table);
+			});
+			
+			socket.on('playerchange', function(hand) {
+				drawHand(hand, $("#player0"));
+				socket.get("player", function(err, player){
+					drawHand(hand, $("#player"+player));
+				});
 			});
 			
 			function twist(){
 				socket.emit('twist');
 			}
+			
+			function twist(){
+				socket.emit('stick');
+			}
 	body
-		h1 Welcome to the casino
+		div(class="dealer")
+			div(class="title") Dealers Hand
+			div(class="hand")
+		div(class="hands")
 		a(onclick="twist(); return false;", href="") Twist
+		br
+		a(onclick="stick(); return false;", href="") Stick

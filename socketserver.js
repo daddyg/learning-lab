@@ -17,6 +17,7 @@ application.configure(function() {
 	application.set('view engine', 'jade');
 	application.set('view options', {layout:false});
 	application.use(express.static(__dirname+'/scripts'));
+	application.use(express.static(__dirname+'/css'));
 });
 
 application.get('/', function(req, res){
@@ -49,6 +50,8 @@ listener.sockets.on('connection', function (socket) {
 	
 	player = table.dealHand();
 	
+	socket.emit("connectedToTable", table);
+	
 	socket.set("player", player);
 	socket.set("table", table.Id);
 	
@@ -57,11 +60,35 @@ listener.sockets.on('connection', function (socket) {
 			socket.get("player", function(err, player){
 				console.log("Player "+player+" on table "+table+" just twisted");
 				casino.getTable(table).draw(player);
+				
+				checkForCompleteGame(table, playerId);
+			});
+		});
+	});
+	
+	socket.on("stick", function(){
+		socket.get("table", function(err, tableId){
+			socket.get("player", function(err, playerId){
+				console.log("Player "+playerId+" on table "+tableId+" just stuck");
+				var table = casino.getTable(tableId)
+				table.stick(playerId);
+				
+				checkForCompleteGame(table, playerId);
 			});
 		});
 	});
 });
 
-process.openStdin().addListener("data", function(text){
-	listener.sockets.emit('message', text.toString());
-});
+function checkForCompleteGame(table, playerId){
+	if(table.isGameComplete()){
+		while(table.dealer.score() <= 16)
+			table.dealer.draw();
+		
+		listener.sockets.emit('playerchange', table.dealer);
+		//res.render('result.jade', {playerId:player, table:table});
+	}
+	//else
+		//res.render('table.jade', {playerId:player, table:table});
+	
+	listener.sockets.emit('playerchange', table.players[playerId]);
+}

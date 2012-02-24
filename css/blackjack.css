@@ -1,0 +1,15 @@
+.card
+{
+	float: left;
+}
+
+.hands
+{
+	clear:both;
+}
+
+.playerhand
+{
+	float:left;
+	padding: 15px 15px 0 0;
+}
