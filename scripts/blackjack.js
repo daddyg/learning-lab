@@ -1,4 +1,6 @@
 function drawTable(table){
+	$(".hands").empty();
+	
 	drawHand(table.dealer, $(".dealer .hand"));
 	var i=0;
 	for(i;i<table.players.length;i++){

@@ -15,10 +15,9 @@ html
 			
 			socket.on('dealerchange', function(hand) {
 				drawHand(hand, $(".dealer .hand"));
-				
 			});
-			socket.on('playerchange', function(hand) {
-				drawHand(hand, $("#player0"));
+			socket.on('playerchange', function(player) {
+				drawHand(player.hand, $("#player"+player.id));
 			});
 			
 			function twist(){
@@ -28,11 +27,16 @@ html
 			function stick(){
 				socket.emit('stick');
 			}
+			
+			function deal(){
+				socket.emit('deal');
+			}
 	body
 		div(class="dealer")
 			div(class="title") Dealers Hand
 			div(class="hand")
 		div(class="hands")
-		a(onclick="twist(); return false;", href="") Twist
-		br
-		a(onclick="stick(); return false;", href="") Stick
+		div(class="controls")
+			a(onclick="twist(); return false;", href="") Twist
+			a(onclick="stick(); return false;", href="") Stick
+			a(onclick="deal(); return false;", href="") Deal in

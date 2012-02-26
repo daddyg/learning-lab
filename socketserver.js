@@ -50,7 +50,7 @@ listener.sockets.on('connection', function (socket) {
 	
 	player = table.dealHand();
 	
-	socket.emit("connectedToTable", table);
+	listener.sockets.emit("connectedToTable", table);
 	
 	socket.set("player", player);
 	socket.set("table", table.Id);
@@ -78,6 +78,23 @@ listener.sockets.on('connection', function (socket) {
 			});
 		});
 	});
+	
+	socket.on("deal", function(){
+		socket.get("table", function(err, tableId){
+			socket.get("player", function(err, playerId){
+				console.log("Player "+playerId+" on table "+tableId+" has been dealt in");
+				var table = casino.getTable(tableId)
+				
+				if(table.isGameComplete()){
+					table.startNextGame();
+				}
+				
+				table.dealHand();
+				
+				listener.sockets.emit("connectedToTable", table);
+			});
+		});
+	});
 });
 
 function checkForCompleteGame(table, playerId){
@@ -91,5 +108,5 @@ function checkForCompleteGame(table, playerId){
 	//else
 		//res.render('table.jade', {playerId:player, table:table});
 	
-	listener.sockets.emit('playerchange', table.players[playerId]);
+	listener.sockets.emit('playerchange', {id:playerId, hand:table.players[playerId]});
 }
